@@ -3,35 +3,25 @@
   <div>
     <h2 style="text-align: center; margin: 20px 0 20px">Notificaciones</h2>
     <div style="text-align: center">
-      <el-transfer
+      <el-transfer ref="transfer"
         style="text-align: left; display: inline-block"
         v-model="value"
-        filterable
-        :left-default-checked="[]"
-        :right-default-checked="[]"
-        :titles="['No suscrito', 'Suscrito']"
-        :button-texts="['Desuscribir', 'Suscribir']"
-        :format="{
-          noChecked: '${total}',
-          hasChecked: '${checked}/${total}'
-        }"
-        @change="handleChange"
         :data="data">
         <span slot-scope="{ option }" class="option">
           <b>{{ option.label }} </b>
-          <input type="checkbox"  :id="option.key"> 
-          <label :for="option.key"> 
-            <i class="fa-solid fa-lock"></i>
-            <font-awesome-icon icon="fa-solid fa-lock" v-on:click="change" /> 
-
-          </label>
+          <span v-if="value.includes(option.key)">
+            <font-awesome-icon icon="fa-solid fa-lock" v-on:click="removeChannel(option)" v-if="requiredChannels.includes(option)" /> 
+            <font-awesome-icon icon="fa-solid fa-lock-open" v-on:click="addChannel(option)" v-else/> 
+          </span>
         </span>
-        <el-button class="transfer-footer" slot="left-footer" size="small">Operation</el-button>
-        <el-button class="transfer-footer" slot="right-footer" size="small">Operation</el-button>
       </el-transfer>
 
     <h2>Lista en la derecha</h2>
-      <ul id="rgt"></ul>
+      <ul>
+        <li v-for="item in requiredChannels">
+          {{item.label}}
+        </li>
+      </ul>
 
     </div>
   </div>
@@ -55,7 +45,7 @@
         notifys.forEach((notify, index) => {
           data.push({
             label: notify,
-            key: index
+            key: index,
           })
         });
         return data;
@@ -63,44 +53,20 @@
       return {
         data: generateData(),
         value: [],
+        requiredChannels: [],
       };
     },
 
     methods: {
-      handleChange(value, direction, movedKeys) {
-        console.log(value, direction, movedKeys);
-        
-        var right = []
-        /* 
-         * Lee los valores que se han movido a la derecha
-         * - 'value' devuelve la posición de cada uno de los items, 
-         *    así que, a cada item se le asignó una id que corresponde
-         *    al mismo valor que 'value' y de esa forma encontrarlo.
-         */
-        value.forEach(val => {
-          // Pendiente de transformar a Vue si es posible
-          const notify = document.getElementById(val)
-                             .parentElement
-                             .getElementsByTagName("b")[0]
-                             .innerHTML;
-          right[val] = notify; // * Estaba pensado en ordenar la lista con .sort, pero, no hay necesidad ninguna.
-        })
+      addChannel(item) {
+        this.requiredChannels.push(item);
+        console.log(item);
 
-        // * Limpiar la lista
-        document.getElementById("rgt").innerHTML = "";
-
-        // * Crea la lista con los elementos del array 
-        right.forEach(notify =>{
-          const node = document.createElement("li");
-          const textnode = document.createTextNode(notify);
-          node.appendChild(textnode);
-
-          document.getElementById("rgt").appendChild(node);
-        });
-        
       },
-      change: function (event){
-        console.log(event.currentTarget.parentElement);
+      removeChannel(item) {
+        this.requiredChannels.splice(this.requiredChannels.findIndex(c => c.key === item.key), 1);
+        console.log(item);
+
       }
     }
   };
