@@ -63,9 +63,6 @@
       return {
         data: generateData(),
         value: [],
-        renderFunc(h, option) {
-          return <span>{ option.key } - { option.label }</span> ;
-        }
       };
     },
 
