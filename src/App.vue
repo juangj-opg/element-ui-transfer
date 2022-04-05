@@ -1,31 +1,7 @@
 
 <template>
   <div>
-  <!--  
-    <p style="text-align: center; margin: 0 0 20px">Customize data items using render-content</p>
-    <div style="text-align: center">
-      <el-transfer
-        style="text-align: left; display: inline-block"
-        v-model="value"
-        filterable
-        :left-default-checked="[]"
-        :right-default-checked="[]"
-        :render-content="renderFunc"
-        :titles="['Source', 'Target']"
-        :button-texts="['To left', 'To right']"
-        :format="{
-          noChecked: '${total}',
-          hasChecked: '${checked}/${total}'
-        }"
-        @change="handleChange"
-        :data="data">
-        <el-button class="transfer-footer" slot="left-footer" size="small">Operation</el-button>
-        <el-button class="transfer-footer" slot="right-footer" size="small">Operation</el-button>
-      </el-transfer>
-    </div>
-  -->  
-  
-    <h2 style="text-align: center; margin: 20px 0 20px">Customize data items using scoped slot</h2>
+    <h2 style="text-align: center; margin: 20px 0 20px">Notificaciones</h2>
     <div style="text-align: center">
       <el-transfer
         style="text-align: left; display: inline-block"
@@ -47,7 +23,6 @@
           <label :for="option.key"> 
             <i class="fa-solid fa-lock"></i>
             <font-awesome-icon icon="fa-solid fa-lock" v-on:click="change" /> 
-            <font-awesome-icon icon="fa-solid fa-lock-open" v-on:click="change" /> 
 
           </label>
         </span>
@@ -58,9 +33,6 @@
     <h2>Lista en la derecha</h2>
       <ul id="rgt"></ul>
 
-    <h2>Lista en la derecha marcados</h2>
-      <ul id="chk"></ul>
-    
     </div>
   </div>
 </template>
